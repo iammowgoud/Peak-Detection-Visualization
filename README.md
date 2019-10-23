@@ -39,9 +39,11 @@ To run both apps using one command at once you can `npm start` in `/`. The app w
 
 * Add pointsToShow property to `Chart` and control it from UI
   * **50%**
-* Make the D3 SVG responsive
+* Make the D3 SVG responsive [CRITICAL]
   * Currently responses to container CSS on each new Reading render tick.
   * Need to decouple responsiveness from rendering.
+  * Probably the `adjustDimensions`  functipn adds extra render cycle that can be avoided
+  * Maybe do some performance tracking here to decide whether to rely on browser API `onresize` or not.
 * UX
   * Make it pretty. UX is minimal and very basic now
   * Improve copy. e.g: Initial load should show 'Connecting' instead of the negative 'Disconnected'
