@@ -5,7 +5,8 @@ import socketIOClient from "socket.io-client";
 import D3TsChart from '../d3-helpers/d3-ts-chart';
 
 const MAX_POINTS_TO_STORE = 50
-const DEFAULT_MAX_POINTS_TO_SHOW = 20
+const DEFAULT_X_TICKS = 20
+const SOCKETIO_ERRORS = ['reconnect_error', 'connect_error', 'connect_timeout', 'connect_failed', 'error']
 export class Chart extends React.Component {
 
   tsChart;
@@ -18,6 +19,9 @@ export class Chart extends React.Component {
   }
 
   componentDidMount() {
+    if (this.props['sensorId'] === undefined) throw new Error("You have to pass 'sensorId' prop to Chart component");
+    if (this.props['x-ticks'] > MAX_POINTS_TO_STORE) throw new Error(`You cannot display more than ${MAX_POINTS_TO_STORE} 'x-ticks'. `);
+
     const parentRef = ReactDOM.findDOMNode(this);
 
     this.tsChart = new D3TsChart({
@@ -46,22 +50,21 @@ export class Chart extends React.Component {
     this.connect();
   }
 
+  connect = () => {
+    this.socket = socketIOClient(`http://localhost:4001?sensor=${this.props.sensorId}`);
+    this.socket.on("reading", this.storeReading)
+
+    // Various Errors handling
+    SOCKETIO_ERRORS.forEach(errType => {
+        this.socket.on(errType, (error) => this.setError(errType, error));
+      });
+  }
   componentWillUnmount() {
     this.socket.disconnect();
   }
-  connect = () => {
-    this.socket = socketIOClient(`http://localhost:4001?sensor=${this.props.sensor}`);
-    this.socket.on("reading", this.storeReading)
 
-
-    this.socket.on('reconnect_error', this.setError);
-    this.socket.on('connect_timeout',this.setError);
-    this.socket.on('connect_failed',  this.setError);
-    this.socket.on('error', this.setError);
-  }
-
-  setError = (e) => {
-    this.setState({ data: [], connected: false, error: e.toString() });
+  setError = (type, error) => {
+    this.setState({ data: [], connected: false, error: `${error.toString()} | ${type}` });
   }
 
   storeReading = (response) => {
@@ -80,31 +83,31 @@ export class Chart extends React.Component {
       };
     });
 
-    console.log("stored", this.state.data)
     this.updateChart();
   }
 
   updateChart() {
-    const pointsToShow = Math.max(this.state.data.length - (this.props["show-points"] || DEFAULT_MAX_POINTS_TO_SHOW), 0);
+    const pointsToShow = Math.max(this.state.data.length - (this.props["x-ticks"] || DEFAULT_X_TICKS), 0);
     const data = this.state.data.slice(pointsToShow);
     const highestValueInView = Math.max(...data.map(p => p.value))
     const zLine = data.map(p => ({ timestamp: p.timestamp, value: p.zscore ? highestValueInView : 0 }))
-    console.log("showed", data)
 
     this.tsChart.adjustAxes(data)
     this.tsChart.updateSeries("sensor-data", data, false);
     this.tsChart.updateSeries("z-score", zLine, false);
   }
 
-  pointsToShow = () => Math.max(this.state.data.length - (this.props.points || DEFAULT_MAX_POINTS_TO_SHOW), 0)
   render = () => (
     <div className="card">
 
-      <span className={"status " + (this.state.connected ? 'success-bg' : 'danger-bg')}>{this.state.connected ? "Connected" : "Disconnected"}</span>
-      <span className="danger">{this.state.error}</span>
+      <span className={"status " + (this.state.connected ? 'success-bg' : 'danger-bg')}>
+        {this.state.connected ? "Connected to" : "Disconnected from"} Sensor {this.props.sensorId}
+      </span>
+
+      <span className="error danger">{this.state.error}</span>
       <span className={"timestamp " + (this.state.connected ? 'success' : 'danger')}>Last poll: {this.state.lastTimestamp}</span>
 
-      <div className={"chart-container " + (this.state.error ? 'error' : '')}></div>
+      <div className={"chart-container " + (this.state.error ? 'faded' : '')}></div>
     </div>
   )
 

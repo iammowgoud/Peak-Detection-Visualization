@@ -5,9 +5,8 @@ import Chart from './components/Chart'
 
 ReactDOM.render(
   <div>
-    <Chart sensor="1" />
-    <Chart sensor="2" show-points="15" />
-    <Chart sensor="3" show-points="10"/>
-
+    <Chart sensorId="1" />
+    <Chart sensorId="2" x-ticks="15" />
+    <Chart sensorId="3" x-ticks="10"/>
   </div>
   , document.getElementById('root'));

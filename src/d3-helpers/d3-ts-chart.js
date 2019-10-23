@@ -120,7 +120,6 @@ export default class D3TsChart {
 
 
   updateArea(series, data) {
-    console.log(data)
     series.ref
       .datum(data)
       .transition().duration(TRANSITION_DURATION).ease(d3.easeQuadIn)
