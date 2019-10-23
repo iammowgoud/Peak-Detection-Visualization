@@ -11,12 +11,16 @@ body {
   padding: 15px 10px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 
+  span.error {
+    font-size: 12px;
+    font-weight: bolder;
+  }
   .chart-container {
     height: 180px;
     width: 100%;
     overflow: hidden;
 
-    &.error {
+    &.faded {
       filter: grayscale(30%);
       opacity: 0.3;
       cursor: no-drop;
@@ -39,6 +43,7 @@ span {
 
 .timestamp {
   float: right;
+  font-size: 15px;
 }
 
 // Colors
