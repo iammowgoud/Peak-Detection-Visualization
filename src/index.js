@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './styles/index.scss';
-import Chart from './components/Chart'
+import Chart from './components/Chart';
 
 ReactDOM.render(
   <div>

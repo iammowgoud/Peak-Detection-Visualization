@@ -1,6 +1,6 @@
 import * as d3 from 'd3';
 
-const SERIES_TYPES = ["LINE", "AREA"];
+const SERIES_TYPES = ['LINE', 'AREA'];
 const TRANSITION_DURATION = 20;
 
 export default class D3TsChart {
@@ -57,45 +57,45 @@ export default class D3TsChart {
   draw() {
     // Main SVG
     this.svg = d3.select(this.elRef)
-      .append("svg")
-      .attr("width", this.outerWidth)
-      .attr("height", this.outerHeight)
+      .append('svg')
+      .attr('width', this.outerWidth)
+      .attr('height', this.outerHeight)
       .classed(this.classList.svg, true);
 
     //Inner box group  (deducting margins)
-    this.group = this.svg.append("g")
-      .attr("width", this.outerWidth - this.margin.left - this.margin.right)
-      .attr("height", this.outerHeight - this.margin.top - this.margin.bottom)
-      .attr("transform", `translate(${this.margin.left} , ${this.margin.top})`)
+    this.group = this.svg.append('g')
+      .attr('width', this.outerWidth - this.margin.left - this.margin.right)
+      .attr('height', this.outerHeight - this.margin.top - this.margin.bottom)
+      .attr('transform', `translate(${this.margin.left} , ${this.margin.top})`)
       .classed(this.classList.group, true);
 
     // X Axis init
     this.xScale
-      .range([0, this.outerWidth - this.margin.left - this.margin.right])
-    this.xAxisRef = this.group.append("g")
-      .attr("transform", `translate(0,${this.outerHeight - this.margin.bottom})`)
-      .classed("x-axis", true);
+      .range([0, this.outerWidth - this.margin.left - this.margin.right]);
+    this.xAxisRef = this.group.append('g')
+      .attr('transform', `translate(0,${this.outerHeight - this.margin.bottom})`)
+      .classed('x-axis', true);
 
     // Y Axis init
     this.yScale
       .range([this.outerHeight - this.margin.bottom, 0]);
-    this.yAxisRef = this.group.append("g")
-      .attr("transform", `translate(0, 0)`)
-      .classed("y-axis", true)
+    this.yAxisRef = this.group.append('g')
+      .attr('transform', 'translate(0, 0)')
+      .classed('y-axis', true);
   }
 
   addSeries({ name, type, fill, stroke, strokeWidth, id }) {
-    if (!SERIES_TYPES.includes(type)) throw new Error("Series type not supported");
+    if (!SERIES_TYPES.includes(type)) throw new Error('Series type not supported');
 
     this.seriesDict[name] = {
       type,
-      ref: this.group.append("path")
-        .attr("id", id)
-        .attr("fill", fill || "none")
-        .attr("stroke", stroke || "black")
-        .attr("stroke-width", strokeWidth || 2)
-        .classed("series", true)
-    }
+      ref: this.group.append('path')
+        .attr('id', id)
+        .attr('fill', fill || 'none')
+        .attr('stroke', stroke || 'black')
+        .attr('stroke-width', strokeWidth || 2)
+        .classed('series', true)
+    };
   }
 
   setSeriesData(name, data, adjustAxes = true) {
@@ -106,13 +106,13 @@ export default class D3TsChart {
     if (adjustAxes) this.adjustAxes(data);
 
     switch (series.type) {
-      case "AREA":
-        this.updateAreaSeries(series, data)
-        break;
-      case "LINE":
-      default:
-        this.updateLineSeries(series, data)
-        break;
+    case 'AREA':
+      this.updateAreaSeries(series, data);
+      break;
+    case 'LINE':
+    default:
+      this.updateLineSeries(series, data);
+      break;
     }
   }
 
@@ -120,21 +120,21 @@ export default class D3TsChart {
     series.ref
       .datum(data)
       .transition().duration(TRANSITION_DURATION).ease(d3.easeQuadIn)
-      .attr("d", d3.line()
-        .x((d) => { return this.xScale(d.timestamp) })
-        .y((d) => { return this.yScale(d.value) })
-      )
+      .attr('d', d3.line()
+        .x((d) => { return this.xScale(d.timestamp); })
+        .y((d) => { return this.yScale(d.value); })
+      );
   }
 
   updateAreaSeries(series, data) {
     series.ref
       .datum(data)
       .transition().duration(TRANSITION_DURATION).ease(d3.easeQuadIn)
-      .attr("d", d3.area()
-        .x((d) => { return this.xScale(d.timestamp) })
+      .attr('d', d3.area()
+        .x((d) => { return this.xScale(d.timestamp); })
         .y0(this.yScale(0))
         .y1((d) => {
-          return this.yScale(d.value)
+          return this.yScale(d.value);
         })
       );
   }
@@ -160,9 +160,9 @@ export default class D3TsChart {
     if (this.responsiveHeight) {
       this.outerHeight = this.elRef.offsetHeight;
       this.svg.transition().duration(TRANSITION_DURATION).ease(d3.easeLinear)
-        .attr("height", this.outerHeight);
+        .attr('height', this.outerHeight);
       this.group.transition().duration(TRANSITION_DURATION).ease(d3.easeLinear)
-        .attr("height", this.outerHeight - this.margin.top - this.margin.bottom);
+        .attr('height', this.outerHeight - this.margin.top - this.margin.bottom);
       this.yScale
         .range([this.outerHeight - this.margin.bottom, 0]);
     }
@@ -170,9 +170,9 @@ export default class D3TsChart {
     if (this.responsiveWidth) {
       this.outerWidth = this.elRef.offsetWidth;
       this.svg.transition().duration(TRANSITION_DURATION).ease(d3.easeLinear)
-        .attr("width", this.outerWidth);
+        .attr('width', this.outerWidth);
       this.group.transition().duration(TRANSITION_DURATION).ease(d3.easeLinear)
-        .attr("width", this.outerWidth - this.margin.left - this.margin.right);
+        .attr('width', this.outerWidth - this.margin.left - this.margin.right);
       this.xScale
         .range([0, this.outerWidth - this.margin.left - this.margin.right]);
     }
