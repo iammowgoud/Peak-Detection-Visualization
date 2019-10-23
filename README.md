@@ -1,5 +1,6 @@
 # Peak Detection Visualization
 
+## [Demo](https://peak-detection-visualization.herokuapp.com/)
 ## Project
 In this project I'm trying to build a React app that can stream data using Socket.io from a live stream (presumably a **sensor**) and graph the **readings** accordingly using D3.js
 
