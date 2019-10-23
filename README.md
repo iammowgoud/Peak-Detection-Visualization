@@ -1,68 +1,48 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Peak Detection Visualization
 
-## Available Scripts
+## Project
+In this project I'm trying to build a React app that can stream data using Socket.io from a live stream (presumably a **sensor**) and graph the **readings** accordingly using D3.js
 
-In the project directory, you can run:
+To simulate the **sensor**, I created a very small server using Express.js that rotate over a JSON file  and keeps on sending data **reading** by **reading** forever.
 
-### `yarn start`
+The data file in `api/data.json` contains example data for 3 sensors. You can connect to the socket by pinging `https://localhost:4001?socket={sensorId}`. **sensorId** can only be 1 or 2 or 3.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+I didn't spend much on the server and didn't implement proper error handling/reporting because that's not the scope of the project.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+The frontend app contains two main classes:
+  * Chart: `src/components/Chart.js`
+    * This is the React component that connects to the relevant **sensor** to stream the **readings**, store it and does some data manipulation logic and finally initialize and update the D3 chart.
+    * The React component has 1 **required prop** `sensorID` and optional `x-ticks` whcich defaults to 20 and has a max of 50.
+  * D3TsChart: `src/d3-helpers/d3-ts-chart.js`
+    * This is the class that handles the Time Series Chart graphics and everything related to the chart SVG.
+    * **Readings** are passed to this class to be graphed in DOM but never stored in the class itself. Data is part of the `Chart` component state.
 
-### `yarn test`
+## Installation
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+There is 2 projects in this repo so you need to run `npm install` in **both** the client root `/` and server `/api/` directories.
 
-### `yarn build`
+## Running
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+I wanted to test the different cases when the server is not available or when multiple clients connect or disconnect to the server sockets.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+* To run the server: `npm start` in `/api`
+* To run the client: `npm start` in `/`. 
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Client should automatically open `http://localhost:3000` in browser)
 
-### `yarn eject`
+You can run any one first and you can shutdown and restart the server several times to see the effect on UI.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## TODO
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+* Add pointsToShow property to `Chart` and control it from UI
+  * **50%**
+* Make the D3 SVG responsive
+  * Currently responses to container CSS on each new Reading render tick.
+  * Need to decouple responsiveness from rendering.
+* UX
+  * Make it pretty. UX is minimal and very basic now
+  * Improve copy. e.g: Initial load should show 'Connecting' instead of the negative 'Disconnected'
+* This project is designed to work with a stateful WebSockets API assuming a live streaming scenario. Could also make it support batch streaming REST API with a periodic `setInterval`.
+  * I know the requirements were REST. I personally wanted to try live streaming DataViz with React and Node. Never has the chance to do it before.
+* Add JSDoc documentation
+  * Last thing to do.
