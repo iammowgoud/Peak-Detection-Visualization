@@ -12,7 +12,9 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "prebuild": "rm -r api/public",
     "build": "react-scripts build",
+    "postbuild": "mv build api/public",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

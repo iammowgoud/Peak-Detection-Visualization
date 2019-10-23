@@ -12,7 +12,7 @@ const port = process.env.PORT || 4001;
 const INTERVAL = 2000;
 const sensorData = require('./data.json');
 
-app.use(express.static(__dirname));
+app.use(express.static(__dirname + '/public'));
 
 io.connections = {};
 
