@@ -1,4 +1,4 @@
-# Peak Detection Visualization
+# Peak Detection Visualization (with live streaming)
 
 ## [Demo](https://peak-detection-visualization.herokuapp.com/)
 ## Project
