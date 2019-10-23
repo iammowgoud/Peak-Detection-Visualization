@@ -41,10 +41,13 @@ server.listen(port, () => {
 
 emitData = (connectionId, socket) => {
   let conn = io.connections[connectionId]
-  console.log(`emitted to sensor id:${conn.sensorId}, index:  ${conn.index}`);
-    const { newIndex, response } = getNextReading(sensorData[conn.sensorId-1], conn.index )
+  const { newIndex, response } = getNextReading(sensorData[conn.sensorId - 1], conn.index);
+
+  console.log(`Emitted to client: ${connectionId}, sensor id:${conn.sensorId}, index:  ${conn.index}`);
+
   socket.emit("reading", JSON.stringify(response));
-    conn.index = newIndex;
+
+  conn.index = newIndex;
 }
 
 
@@ -55,5 +58,5 @@ getNextReading = (data, index) => {
     zscore: data.zScores[index]
   };
 
-  return { newIndex: (index + 1) % data.readings.length, response  };
+  return { newIndex: (index + 1) % data.readings.length, response };
 }
