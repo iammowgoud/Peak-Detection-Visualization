@@ -105,7 +105,11 @@ export class Chart extends React.Component {
       </span>
 
       <span className="error danger">{this.state.error}</span>
-      <span className={"timestamp " + (this.state.connected ? 'success' : 'danger')}>Last poll: {this.state.lastTimestamp}</span>
+      <span className={"timestamp " + (this.state.connected ? 'success' : 'danger')}>
+        Showing last {this.props["x-ticks"] || DEFAULT_X_TICKS} readings
+|
+        Last poll: {this.state.lastTimestamp}
+      </span>
 
       <div className={"chart-container " + (this.state.error ? 'faded' : '')}></div>
     </div>
