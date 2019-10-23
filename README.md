@@ -27,11 +27,13 @@ There is 2 projects in this repo so you need to run `npm install` in **both** th
 I wanted to test the different cases when the server is not available or when multiple clients connect or disconnect to the server sockets.
 
 * To run the server: `npm start` in `/api`
-* To run the client: `npm start` in `/`. 
+* To run the client: `npm run serve` in `/`. 
 
 Client should automatically open `http://localhost:3000` in browser)
 
 You can run any one first and you can shutdown and restart the server several times to see the effect on UI.
+
+To run both apps using one command at once you can `npm start` in `/`. The app will be served on `:4001`
 
 ## TODO
 
