@@ -43,6 +43,5 @@ You can run any one first and you can shutdown and restart the server several ti
   * Make it pretty. UX is minimal and very basic now
   * Improve copy. e.g: Initial load should show 'Connecting' instead of the negative 'Disconnected'
 * This project is designed to work with a stateful WebSockets API assuming a live streaming scenario. Could also make it support batch streaming REST API with a periodic `setInterval`.
-  * I know the requirements were REST. I personally wanted to try live streaming DataViz with React and Node. Never has the chance to do it before.
 * Add JSDoc documentation
   * Last thing to do.
