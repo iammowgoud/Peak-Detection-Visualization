@@ -1,7 +1,9 @@
-# Peak Detection Visualization (with live streaming)
+# 📈📈📈 Peak Detection Visualization 📈📈📈
+(with live streaming)
 
-## [Demo](https://peak-detection-visualization.herokuapp.com/)
-## Project
+### [Demo 🔗](https://peak-detection-visualization.herokuapp.com/)
+
+## Project 
 In this project I'm trying to build a React app that can stream data using Socket.io from a live stream (presumably a **sensor**) and graph the **readings** accordingly using D3.js
 
 To simulate the **sensor**, I created a very small server using Express.js that rotate over a JSON file  and keeps on sending data **reading** by **reading** forever.
