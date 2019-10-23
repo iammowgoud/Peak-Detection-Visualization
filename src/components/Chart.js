@@ -63,7 +63,7 @@ export class Chart extends React.Component {
   }
 
   connect = () => {
-    this.socket = socketIOClient(`http://localhost:4001?sensor=${this.props.sensorId}`);
+    this.socket = socketIOClient(`/?sensor=${this.props.sensorId}`);
     this.socket.on('reading', this.storeReading);
 
     // Various Errors handling

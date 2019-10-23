@@ -2,6 +2,7 @@
   "name": "labforward",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:4001",
   "dependencies": {
     "d3": "^5.12.0",
     "node-sass": "^4.12.0",
