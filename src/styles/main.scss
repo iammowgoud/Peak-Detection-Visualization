@@ -1,0 +1,74 @@
+$font-family: 'Noto Sans', sans-serif;
+
+@import './colors';
+@import './d3-chart';
+@import './pulse';
+@import './legend';
+
+body {
+  margin: 0;
+  background-color: $light-hex;
+  font-family: $font-family;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.card {
+  max-width: 900px;
+  margin: 15px auto;
+  padding: 15px 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  background-color: white;
+
+  h1 {
+    display: inline-block;
+    margin: 0 20px;
+    font-weight: 100;
+    font-size: 25px;
+    color: gray;
+  }
+
+  span.error {
+    font-size: 12px;
+    font-weight: bolder;
+  }
+
+  &:hover .timestamp {
+    opacity: 1;
+
+  }
+
+  .chart-container {
+    height: 170px;
+    width: 100%;
+    overflow: hidden;
+
+    &.faded {
+      filter: grayscale(30%);
+      opacity: 0.3;
+      cursor: no-drop;
+    }
+  }
+}
+
+// Text
+span {
+  display: inline-block;
+  margin: 10px;
+}
+
+.status {
+  float: right;
+  padding: 5px;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.timestamp {
+  float: right;
+  margin: 10px 20px;
+  font-weight: bold;
+  font-size: 14px;
+  opacity: 0;
+}

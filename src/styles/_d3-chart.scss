@@ -1,0 +1,36 @@
+// overwritin d3 default styles
+svg.z-chart {
+
+  .series.hidden {
+    opacity: 0;
+  }
+
+  g.y-axis,
+  g.x-axis {
+
+    path.domain {
+      stroke: none;
+    }
+
+    g.tick {
+      line {
+        stroke: none;
+      }
+
+      text {
+        font-family: $font-family;
+        color: $gray-hex;
+      }
+    }
+  }
+
+  .x-axis {
+    opacity: 0 !important;
+  }
+
+  &:hover {
+    .x-axis {
+      opacity: 1 !important;
+    }
+  }
+}
