@@ -142,8 +142,6 @@ export class Chart extends React.Component {
 
       <h2>{!this.state.lastTimestamp ? 'Connecting...' : `Sensor ${this.props.sensorId}`}</h2>
 
-      <span className="connecting"></span>
-
       <span className={'status ' + (this.state.connected ? 'success' : 'danger')}>
         {this.state.error}
         <i className="pulse"></i>
