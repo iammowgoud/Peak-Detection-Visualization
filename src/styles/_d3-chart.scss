@@ -27,10 +27,10 @@ svg.z-chart {
   .x-axis {
     opacity: 0 !important;
   }
+}
 
-  &:hover {
-    .x-axis {
-      opacity: 1 !important;
-    }
+.card:hover {
+  .x-axis {
+    opacity: 1 !important;
   }
 }
