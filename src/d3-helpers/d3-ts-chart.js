@@ -2,6 +2,7 @@ import * as d3 from 'd3';
 
 const SERIES_TYPES = ['LINE', 'AREA'];
 const TRANSITION_DURATION = 20;
+const MAX_Y_TICKS = 6;
 
 export default class D3TsChart {
 
@@ -39,7 +40,7 @@ export default class D3TsChart {
    *    classList: { svg, group } //strings
    *  }
    */
-  constructor ({ elRef, width, height, classList }) {
+  init({ elRef, width, height, classList }) {
     this.elRef = elRef;
 
     // If no width/height specified, SVG will inherit container element dimensions
@@ -60,14 +61,14 @@ export default class D3TsChart {
       .append('svg')
       .attr('width', this.outerWidth)
       .attr('height', this.outerHeight)
-      .classed(this.classList.svg, true);
+      .classed(this.classList.svg || null, true);
 
     //Inner box group  (deducting margins)
     this.group = this.svg.append('g')
       .attr('width', this.outerWidth - this.margin.left - this.margin.right)
       .attr('height', this.outerHeight - this.margin.top - this.margin.bottom)
       .attr('transform', `translate(${this.margin.left} , ${this.margin.top})`)
-      .classed(this.classList.group, true);
+      .classed(this.classList.group || null, true);
 
     // X Axis init
     this.xScale
@@ -85,16 +86,17 @@ export default class D3TsChart {
   }
 
   addSeries({ name, type, fill, stroke, strokeWidth, id }) {
-    if (!SERIES_TYPES.includes(type)) throw new Error('Series type not supported');
+    if (this.seriesDict[name]) throw new Error('Series name must be unique!');
+    if (!SERIES_TYPES.includes(type)) throw new Error('Series type not supported!');
 
     this.seriesDict[name] = {
       type,
       ref: this.group.append('path')
-        .attr('id', id)
         .attr('fill', fill || 'none')
         .attr('stroke', stroke || 'black')
         .attr('stroke-width', strokeWidth || 2)
         .classed('series', true)
+        .classed('hidden', false)
     };
   }
 
@@ -106,13 +108,13 @@ export default class D3TsChart {
     if (adjustAxes) this.adjustAxes(data);
 
     switch (series.type) {
-    case 'AREA':
-      this.updateAreaSeries(series, data);
-      break;
-    case 'LINE':
-    default:
-      this.updateLineSeries(series, data);
-      break;
+      case 'AREA':
+        this.updateAreaSeries(series, data);
+        break;
+      case 'LINE':
+      default:
+        this.updateLineSeries(series, data);
+        break;
     }
   }
 
@@ -139,17 +141,29 @@ export default class D3TsChart {
       );
   }
 
+  toggleSeries = ({ target: { id } }) => {
+    const series = this.seriesDict[id];
+    const hidden = series.ref.classed('hidden');
+    series.ref.classed('hidden', !hidden);
+  }
+
   // Helper functions
   adjustAxes(data) {
+    const maxValue = d3.max(data, (d) => d.value);
+
     this.xScale.domain(d3.extent(data, (d) => d.timestamp));
     this.xAxisRef
       .transition().duration(TRANSITION_DURATION).ease(d3.easeLinear)
       .call(d3.axisBottom(this.xScale));
 
-    this.yScale.domain([0, d3.max(data, (d) => d.value)]);
+    this.yScale.domain([0, maxValue]);
     this.yAxisRef
       .transition().duration(TRANSITION_DURATION).ease(d3.easeLinear)
-      .call(d3.axisLeft(this.yScale));
+      .call(
+        d3.axisLeft(this.yScale)
+          .ticks(maxValue < MAX_Y_TICKS ? maxValue : MAX_Y_TICKS)
+          .tickFormat(d3.format('d'))
+      );
   }
 
   /**

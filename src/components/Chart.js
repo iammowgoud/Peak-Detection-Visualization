@@ -21,7 +21,26 @@ const SOCKETIO_ERRORS = ['reconnect_error', 'connect_error', 'connect_timeout', 
 */
 export class Chart extends React.Component {
 
-  tsChart;
+  seriesList = [
+    {
+      name: 'sensor-data',
+      type: 'LINE',
+      stroke: '#038C7E',
+      strokeWidth: 5,
+      label: 'Readings',
+      labelClass: 'readings',
+    },
+    {
+      name: 'z-score',
+      type: 'AREA',
+      fill: 'rgba(216, 13, 49, 0.2)',
+      stroke: 'transparent',
+      strokeWidth: 0,
+      label: 'Peaks',
+      labelClass: 'z-score',
+    }
+  ]
+  tsChart = new D3TsChart();
   socket;
   state = {
     data: [],
@@ -36,29 +55,15 @@ export class Chart extends React.Component {
 
     const parentRef = ReactDOM.findDOMNode(this);
 
-    this.tsChart = new D3TsChart({
+    this.tsChart.init({
       elRef: parentRef.getElementsByClassName('chart-container')[0],
       classList: {
         svg: 'z-chart'
       }
     });
 
-    this.tsChart.addSeries({
-      name: 'sensor-data',
-      type: 'LINE',
-      id: 'sensor',
-      stroke: '#038C7E',
-      strokeWidth: 5,
-    });
-
-    this.tsChart.addSeries({
-      name: 'z-score',
-      type: 'AREA',
-      id: 'zline',
-      fill: 'rgba(216, 13, 49, 0.2)',
-      stroke: 'transparent',
-      strokeWidth: 0,
-    });
+    this.tsChart.addSeries(this.seriesList[0]); // readings
+    this.tsChart.addSeries(this.seriesList[1]); //z-score
 
     this.connect();
   }
@@ -122,18 +127,37 @@ export class Chart extends React.Component {
   render = () => (
     <div className="card">
 
-      <span className={'status ' + (this.state.connected ? 'success-bg' : 'danger-bg')}>
-        {this.state.connected ? 'Connected to' : 'Disconnected from'} Sensor {this.props.sensorId}
-      </span>
+      <h1>Sensor {this.props.sensorId}</h1>
 
-      <span className="error danger">{this.state.error}</span>
-      <span className={'timestamp ' + (this.state.connected ? 'success' : 'danger')}>
-        Showing last {this.props['x-ticks'] || DEFAULT_X_TICKS} readings
-        |
-        Last Reading: {this.state.lastTimestamp}
+      <span className={'status ' + (this.state.connected ? 'success' : 'danger')}>
+        <i className="pulse"></i>
+        {this.state.connected ? 'Connected' : 'Disconnected'}
       </span>
+      <span className="error danger">{this.state.error}</span>
 
       <div className={'chart-container ' + (this.state.error ? 'faded' : '')}></div>
+
+
+      <div className="legend">
+        {this.seriesList.map((series) => {
+          return (
+            <span
+              id={series.name}
+              key={series.name}
+              className={series.labelClass}
+              onClick={this.tsChart.toggleSeries}>
+              <i className="box"></i>
+              {series.label}
+            </span>
+          );
+        })}
+      </div>
+
+      <span className={'timestamp ' + (this.state.connected ? 'success' : 'danger')}>
+        {this.state.connected ? '' : 'Last reasding was at '}
+        {this.state.lastTimestamp}
+      </span>
+
     </div>
   )
 
