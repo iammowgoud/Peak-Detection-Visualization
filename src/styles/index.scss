@@ -1,13 +1,35 @@
+/* Color Theme Swatches in Hex */
+$GRAPH-1-hex: #A60A17;
+$GRAPH-2-hex: #D90D32;
+$GRAPH-3-hex: #8b8b8b;
+$GRAPH-4-hex: #04bfad;
+$GRAPH-5-hex: #038C7E;
+
+/* Color Theme Swatches in RGBA */
+$GRAPH-1-rgba: rgba(165, 10, 23, 1);
+$GRAPH-2-rgba: rgba(216, 13, 49, 1);
+$GRAPH-3-rgba: rgba(139, 139, 139, 1);
+$GRAPH-4-rgba: rgba(4, 191, 172, 1);
+$GRAPH-5-rgba: rgba(2, 140, 126, 1);
+
+
+
+$font-family: 'Rubik',
+sans-serif;
+
+
 body {
   margin: 0;
-  font-family: 'Rubik', sans-serif;
+  font-family: $font-family;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+
 // Chart
 .card {
-  margin: 20px;
+  max-width: 900px;
+  margin: 20px auto;
   padding: 15px 10px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 
@@ -15,6 +37,7 @@ body {
     font-size: 12px;
     font-weight: bolder;
   }
+
   .chart-container {
     height: 180px;
     width: 100%;
@@ -61,4 +84,30 @@ span {
 
 .danger-bg {
   background: red;
+}
+
+// overwritin d3 default styles
+svg.z-chart {
+
+  g.y-axis,
+  g.x-axis {
+
+
+    path.domain {
+      stroke: none;
+    }
+
+    g.tick {
+      line {
+        stroke: none;
+      }
+
+      text {
+        font-family: $font-family;
+        color: $GRAPH-3-rgba;
+      }
+    }
+  }
+
+
 }

@@ -47,14 +47,15 @@ export class Chart extends React.Component {
       name: 'sensor-data',
       type: 'LINE',
       id: 'sensor',
-      stroke: 'steelblue',
+      stroke: '#038C7E',
+      strokeWidth: 5,
     });
 
     this.tsChart.addSeries({
       name: 'z-score',
       type: 'AREA',
       id: 'zline',
-      fill: 'rgba(255, 50, 50, 0.25)',
+      fill: 'rgba(216, 13, 49, 0.2)',
       stroke: 'transparent',
       strokeWidth: 0,
     });
