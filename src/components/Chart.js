@@ -77,10 +77,10 @@ export class Chart extends React.Component {
       this.socket.on(errType, (error) => this.setError(errType, error));
     });
   }
+
   componentWillUnmount() {
     this.socket.disconnect();
   }
-
   setError = (type, error) => {
     this.setState({ data: [], connected: false, error: `${error.toString()} | ${type}` });
   }
@@ -154,7 +154,7 @@ export class Chart extends React.Component {
       </div>
 
       <span className={'timestamp ' + (this.state.connected ? 'success' : 'danger')}>
-        {this.state.connected ? '' : 'Last reasding was at '}
+        {this.state.connected ? '' : 'Last reading was at '}
         {this.state.lastTimestamp}
       </span>
 
