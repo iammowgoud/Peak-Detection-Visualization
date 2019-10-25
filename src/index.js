@@ -5,7 +5,7 @@ import Chart from './components/chart';
 
 ReactDOM.render(
   <div>
-    <h1>Sensors Dashboard</h1>
+    <h1>Peak Detection Dashboard</h1>
     <Chart sensorId="1" />
     <Chart sensorId="2" x-ticks="20" />
     <Chart sensorId="3" x-ticks="20"/>
