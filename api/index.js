@@ -14,18 +14,19 @@ const sensorData = require('./data.json');
 
 app.use(express.static(__dirname + '/public'));
 
-io.connections = {};
+io.connections = {};  //To keep track of connected clients
 
 io.on('connection', (socket) => {
-  const connectionId = socket.id
+  const connectionId = socket.id;
   const sensorId = Number(socket.handshake.query['sensor']);
   console.log(`New client connected with id:${connectionId}`);
 
+  // Add connection
   io.connections[connectionId] = {
     sensorId,
     index: 0,
-    interval: setInterval(() => emitData(connectionId, socket), INTERVAL),
-  }
+    interval: setInterval(() => emitData(connectionId, socket), INTERVAL)
+  };
 
   socket.on('disconnect', () => {
     clearInterval(io.connections[connectionId].interval)
@@ -39,8 +40,8 @@ server.listen(port, () => {
   console.log(`Server is up and running on port ${port}`);
 });
 
-emitData = (connectionId, socket) => {
-  let conn = io.connections[connectionId]
+const emitData = (connectionId, socket) => {
+  let conn = io.connections[connectionId];
   const { newIndex, response } = getNextReading(sensorData[conn.sensorId - 1], conn.index);
 
   console.log(`Emitted to client: ${connectionId}, sensor id:${conn.sensorId}, index:  ${conn.index}`);
@@ -48,10 +49,10 @@ emitData = (connectionId, socket) => {
   socket.emit("reading", JSON.stringify(response));
 
   conn.index = newIndex;
-}
+};
 
 
-getNextReading = (data, index) => {
+const getNextReading = (data, index) => {
   response = {
     timestamp: Date.now(),
     value: data.readings[index],
@@ -59,4 +60,4 @@ getNextReading = (data, index) => {
   };
 
   return { newIndex: (index + 1) % data.readings.length, response };
-}
+};
