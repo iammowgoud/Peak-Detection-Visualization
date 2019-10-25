@@ -140,13 +140,15 @@ export class Chart extends React.Component {
   render = () => (
     <div className="card">
 
-      <h2>Sensor {this.props.sensorId}</h2>
+      <h2>{!this.state.lastTimestamp ? 'Connecting...' : `Sensor ${this.props.sensorId}`}</h2>
+
+      <span className="connecting"></span>
 
       <span className={'status ' + (this.state.connected ? 'success' : 'danger')}>
+        {this.state.error}
         <i className="pulse"></i>
         {this.state.connected ? 'Connected' : 'Disconnected'}
       </span>
-      <span className="error danger">{this.state.error}</span>
 
       <div className={'chart-container ' + (this.state.error ? 'faded' : '')}></div>
 
