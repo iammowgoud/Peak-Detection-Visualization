@@ -66,6 +66,8 @@ export class Chart extends React.Component {
     this.tsChart.addSeries(this.seriesList[1]); //z-score
 
     this.connect();
+
+    this.attachFocusWatcher();
   }
 
   connect = () => {
@@ -81,6 +83,17 @@ export class Chart extends React.Component {
   componentWillUnmount() {
     this.socket.disconnect();
   }
+
+  attachFocusWatcher() {
+    window.focused = true;
+    window.onblur = () => {
+      window.focused = false;
+    }
+    window.onfocus = () => {
+      window.focused = true;
+    }
+  }
+
   setError = (type, error) => {
     this.setState({ data: [], connected: false, error: `${error.toString()} | ${type}` });
   }
@@ -127,7 +140,7 @@ export class Chart extends React.Component {
   render = () => (
     <div className="card">
 
-      <h1>Sensor {this.props.sensorId}</h1>
+      <h2>Sensor {this.props.sensorId}</h2>
 
       <span className={'status ' + (this.state.connected ? 'success' : 'danger')}>
         <i className="pulse"></i>
