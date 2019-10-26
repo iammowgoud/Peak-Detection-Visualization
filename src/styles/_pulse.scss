@@ -6,11 +6,14 @@
   border-radius: 50%;
 }
 
+
 .success .pulse {
   animation: pulse 2s infinite;
   background: $dark-green-hex;
   box-shadow: 0 0 0 $dark-green-hex;
 }
+
+
 
 .danger .pulse {
   animation: none;
@@ -20,14 +23,17 @@
 
 @keyframes pulse {
   0% {
+    background: rgba(2, 140, 126, 1);
     box-shadow: 0 0 0 0 rgba(2, 140, 126, 0.4);
   }
 
   70% {
+    background: rgba(2, 140, 126, 0.8);
     box-shadow: 0 0 0 10px rgba(2, 140, 126, 0);
   }
 
   100% {
+    background: rgba(2, 140, 126, 0.2);
     box-shadow: 0 0 0 0 rgba(2, 140, 126, 0);
   }
 }
