@@ -1,7 +1,9 @@
-# 📈📈📈 Peak Detection Visualization 📈📈📈
+# 📈📈📈 Realtime Peak Detection Visualization 📈📈📈
 (with live streaming)
 
 ### [Demo 🔗](https://peak-detection-visualization.herokuapp.com/)
+
+### [Blog Post 🔗](https://hatem-hassan.com/blog/Realtime-Data-Visualization-with-Peak-Detection-using-SocketIO-D3-and-React/)
 
 ## Project 
 In this project I'm trying to build a React app that can stream data using Socket.io from a live stream (presumably a **sensor**) and visualize the **readings** in a time series line chart accordingly using D3.js
@@ -36,7 +38,7 @@ You can run these commands in any order or you can shutdown and restart the serv
 
 To run both apps using one command you can `npm start` in `/`. The app will be served on `:4001`
 
-## TODO
+## TODO / Improvments
 
 * Add x-ticks property to `Chart` and control it from UI
   * **50%**
@@ -49,5 +51,3 @@ To run both apps using one command you can `npm start` in `/`. The app will be s
   * Make it pretty. UX is minimal and very basic now.
   * Improve copy. e.g: Initial load should show 'Connecting' instead of the negative 'Disconnected'
 * This project is designed to work with a stateful WebSockets API assuming a live streaming scenario. Could also make it support batch streaming REST with a periodic `setInterval`.
-* Add JSDoc documentation
-  * Last thing to do.
