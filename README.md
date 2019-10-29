@@ -8,7 +8,7 @@
 ## Project 
 In this project I'm trying to build a React app that can stream data using Socket.io from a live stream (presumably a **sensor**) and visualize the **readings** in a time series line chart accordingly using D3.js
 
-To simulate the **sensor**, I created a very small server using Express.js that rotate over a JSON file  and keeps on sending data **reading** by **reading** *every 2 seconds* forever.
+To simulate the **sensor**, I created a very small server using Express.js that rotate over a JSON file  and keeps on sending data **reading** by **reading** *every 1 second* forever.
 
 The data file `api/data.json` contains mock data for 3 sensors. You can connect to the socket by pinging `https://localhost:4001?socket={sensorId}`. **sensorId** can only be 1 or 2 or 3 *for now*.
 
