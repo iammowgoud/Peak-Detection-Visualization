@@ -88,10 +88,10 @@ export class Chart extends React.Component {
     window.focused = true;
     window.onblur = () => {
       window.focused = false;
-    }
+    };
     window.onfocus = () => {
       window.focused = true;
-    }
+    };
   }
 
   setError = (type, error) => {
@@ -137,6 +137,12 @@ export class Chart extends React.Component {
     this.tsChart.setSeriesData('z-score', zLine, false);
   }
 
+
+  toggleSeries = ({ target }) => {
+    target.classList.toggle('hidden');
+    this.tsChart.toggleSeries(target.id);
+  }
+
   render = () => (
     <div className="card">
 
@@ -158,7 +164,7 @@ export class Chart extends React.Component {
               id={series.name}
               key={series.name}
               className={series.labelClass}
-              onClick={this.tsChart.toggleSeries}>
+              onClick={this.toggleSeries}>
               <i className="box"></i>
               {series.label}
             </span>

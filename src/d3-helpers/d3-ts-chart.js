@@ -142,7 +142,7 @@ export default class D3TsChart {
       );
   }
 
-  toggleSeries = ({ target: { id } }) => {
+  toggleSeries = (id) => {
     if (id) {
       const series = this.seriesDict[id];
       const hidden = series.ref.classed('hidden');

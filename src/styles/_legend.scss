@@ -28,4 +28,11 @@
       background-color: $dark-red-hex;
     }
   }
+
+  .readings.hidden, .z-score.hidden {
+    color: $gray-hex;
+    .box {
+      background-color: $gray-hex;
+    }
+  }
 }
