@@ -9,7 +9,7 @@ const io = socketIO(server);
 
 const port = process.env.PORT || 4001;
 
-const INTERVAL = 1000;
+const INTERVAL = 1500;
 const sensorData = require('./data.json');
 
 app.use(express.static(__dirname + '/public'));

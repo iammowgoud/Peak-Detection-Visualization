@@ -1,7 +1,7 @@
 import * as d3 from 'd3';
 
 const SERIES_TYPES = ['LINE', 'AREA'];
-const TRANSITION_DURATION = 20;
+const TRANSITION_DURATION = 100;
 const MAX_Y_TICKS = 6;
 
 export default class D3TsChart {
